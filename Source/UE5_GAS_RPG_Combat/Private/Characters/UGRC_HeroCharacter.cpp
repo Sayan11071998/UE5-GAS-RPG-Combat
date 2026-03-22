@@ -4,8 +4,6 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-#include "UGRC_DebugHelper.h"
-
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.f);
@@ -33,6 +31,4 @@ AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 void AUGRC_HeroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	Debug::Print(TEXT("Working"));
 }
