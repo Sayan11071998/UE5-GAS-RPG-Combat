@@ -1,6 +1,6 @@
 #include "DataAssets/Input/UGRC_DataAsset_InputConfig.h"
 
-TObjectPtr<UInputAction> UUGRC_DataAsset_InputConfig::FindNativeInputActionByTag(const FGameplayTag& InInputTag)
+TObjectPtr<UInputAction> UUGRC_DataAsset_InputConfig::FindNativeInputActionByTag(const FGameplayTag& InInputTag) const
 {
 	for (const FUGRC_InputActionConfig& InputActionConfig : NativeInputActions)
 	{
