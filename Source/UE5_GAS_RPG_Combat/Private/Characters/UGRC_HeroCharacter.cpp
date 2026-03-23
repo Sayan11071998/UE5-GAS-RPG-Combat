@@ -7,7 +7,7 @@
 #include "DataAssets/Input/UGRC_DataAsset_InputConfig.h"
 #include "Components/Input/UGRC_InputComponent.h"
 #include "UGRC_GameplayTags.h"
-#include "AbilitySystem/UGRC_AbilitySystemComponent.h"
+#include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
 
 #include "UGRC_DebugHelper.h"
 
@@ -39,11 +39,12 @@ void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	
-	if (UGRC_AbilitySystemComponent && UGRC_AttributeSet)
+	if (!CharacterStartupData.IsNull())
 	{
-		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, Avatar Actor: %s"), *UGRC_AbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *UGRC_AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-		Debug::Print(TEXT("Ability system component valid. ") + ASCText, FColor::Green);
-		Debug::Print(TEXT("Attribute set valid. ") + ASCText, FColor::Green);
+		if (UUGRC_DataAsset_StartupDataBase* LoadedData = CharacterStartupData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(UGRC_AbilitySystemComponent);
+		}
 	}
 }
 

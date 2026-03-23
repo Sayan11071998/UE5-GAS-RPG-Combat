@@ -3,17 +3,17 @@
 #include "AbilitySystem/Abilities/UGRC_GameplayAbility.h"
 
 void UUGRC_DataAsset_StartupDataBase::GiveToAbilitySystemComponent(
-	TObjectPtr<UUGRC_AbilitySystemComponent> InCharacterASCToGive, int32 ApplyLevel)
+	TObjectPtr<UUGRC_AbilitySystemComponent> InASCToGive, int32 ApplyLevel)
 {
-	check(InCharacterASCToGive);
+	check(InASCToGive);
 	
-	GrantAbilities(ActivateOnGivenAbilities, InCharacterASCToGive, ApplyLevel);
-	GrantAbilities(ReactiveAbilities, InCharacterASCToGive, ApplyLevel);
+	GrantAbilities(ActivateOnGivenAbilities, InASCToGive, ApplyLevel);
+	GrantAbilities(ReactiveAbilities, InASCToGive, ApplyLevel);
 }
 
 void UUGRC_DataAsset_StartupDataBase::GrantAbilities(
 	const TArray<TSubclassOf<UUGRC_GameplayAbility>>& InAbilitiesToGive,
-	TObjectPtr<UUGRC_AbilitySystemComponent> InCharacterASCToGive, int32 ApplyLevel)
+	TObjectPtr<UUGRC_AbilitySystemComponent> InASCToGive, int32 ApplyLevel)
 {
 	if (InAbilitiesToGive.IsEmpty()) return;
 	
@@ -22,9 +22,9 @@ void UUGRC_DataAsset_StartupDataBase::GrantAbilities(
 		if (!Ability) continue;
 		
 		FGameplayAbilitySpec AbilitySpec(Ability);
-		AbilitySpec.SourceObject = InCharacterASCToGive->GetAvatarActor();
+		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
 		
-		InCharacterASCToGive->GiveAbility(AbilitySpec);
+		InASCToGive->GiveAbility(AbilitySpec);
 	}
 }

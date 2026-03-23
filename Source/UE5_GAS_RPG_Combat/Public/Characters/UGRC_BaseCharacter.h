@@ -7,6 +7,7 @@
 
 class UUGRC_AbilitySystemComponent;
 class UUGRC_AttributeSet;
+class UUGRC_DataAsset_StartupDataBase;
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API AUGRC_BaseCharacter : public ACharacter, public IAbilitySystemInterface
@@ -30,6 +31,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	TObjectPtr<UUGRC_AttributeSet> UGRC_AttributeSet;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+	TSoftObjectPtr<UUGRC_DataAsset_StartupDataBase> CharacterStartupData;
 	
 public:
 	FORCEINLINE TObjectPtr<UUGRC_AbilitySystemComponent> GetUGRC_AbilitySystemComponent() const { return UGRC_AbilitySystemComponent; }

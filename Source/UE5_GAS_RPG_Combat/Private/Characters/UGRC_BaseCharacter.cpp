@@ -25,5 +25,7 @@ void AUGRC_BaseCharacter::PossessedBy(AController* NewController)
 	if (UGRC_AbilitySystemComponent)
 	{
 		UGRC_AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		ensureMsgf(!CharacterStartupData.IsNull(), TEXT("Forgot to assign startup data to %s"), *GetName());
 	}
 }
