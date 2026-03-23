@@ -1,0 +1,29 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "AbilitySystem/Abilities/UGRC_GameplayAbility.h"
+#include "UGRC_HeroGameplayAbility.generated.h"
+
+class AUGRC_HeroCharacter;
+class AUGRC_HeroController;
+class UUGRC_HeroCombatComponent;
+
+UCLASS()
+class UE5_GAS_RPG_COMBAT_API UUGRC_HeroGameplayAbility : public UUGRC_GameplayAbility
+{
+	GENERATED_BODY()
+	
+public:
+	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
+	AUGRC_HeroCharacter* GetHeroCharacterFromActorInfo();
+	
+	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
+	AUGRC_HeroController* GetHeroControllerFromActorInfo();
+	
+	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
+	UUGRC_HeroCombatComponent* GetHeroCombatComponentFromActorInfo();
+	
+private:
+	TWeakObjectPtr<AUGRC_HeroCharacter> CachedUGRCHeroCharacter;
+	TWeakObjectPtr<AUGRC_HeroController> CachedUGRCHeroController;
+};

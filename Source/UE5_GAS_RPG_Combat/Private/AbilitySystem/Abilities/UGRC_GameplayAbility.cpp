@@ -34,3 +34,8 @@ UUGRC_PawnCombatComponent* UUGRC_GameplayAbility::GetPawnCombatComponentFromActo
 {
 	return GetAvatarActorFromActorInfo()->FindComponentByClass<UUGRC_PawnCombatComponent>();
 }
+
+UUGRC_AbilitySystemComponent* UUGRC_GameplayAbility::GetUGRCAbilitySystemComponentFromActorInfo() const
+{
+	return Cast<UUGRC_AbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}
