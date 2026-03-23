@@ -8,8 +8,7 @@
 #include "Components/Input/UGRC_InputComponent.h"
 #include "UGRC_GameplayTags.h"
 #include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
-
-#include "UGRC_DebugHelper.h"
+#include "Components/Combat/UGRC_HeroCombatComponent.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -33,6 +32,8 @@ AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+	
+	HeroCombatComponent = CreateDefaultSubobject<UUGRC_HeroCombatComponent>(TEXT("HeroCombatComponent"));
 }
 
 void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
