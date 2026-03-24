@@ -8,4 +8,8 @@ UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_AbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
+	
+public:
+	void OnAbilityInputPressed(const FGameplayTag& InInputTag);
+	void OnAbilityInputReleased(const FGameplayTag& InInputTag);
 };

@@ -15,7 +15,7 @@ public:
 	void BindNativeInputAction(const TObjectPtr<UUGRC_DataAsset_InputConfig> InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject ContextObject, CallbackFunc Func);
 
 	template<class UserObject, typename CallbackFunc>
-	void BindAbilityInputAction(const TObjectPtr<UUGRC_DataAsset_InputConfig> InInputConfig, TObjectPtr<UserObject> ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc);
+	void BindAbilityInputAction(const TObjectPtr<UUGRC_DataAsset_InputConfig> InInputConfig, UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc);
 };
 
 template <class UserObject, typename CallbackFunc>
@@ -32,7 +32,7 @@ void UUGRC_InputComponent::BindNativeInputAction(const TObjectPtr<UUGRC_DataAsse
 
 template <class UserObject, typename CallbackFunc>
 void UUGRC_InputComponent::BindAbilityInputAction(const TObjectPtr<UUGRC_DataAsset_InputConfig> InInputConfig,
-	TObjectPtr<UserObject> ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc)
+	UserObject* ContextObject, CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc)
 {
 	checkf(InInputConfig, TEXT("Input config data asset is null, can not proceed with binding"));
 	
