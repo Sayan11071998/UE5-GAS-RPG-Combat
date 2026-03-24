@@ -1,8 +1,25 @@
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "UGRC_StructTypes.generated.h"
 
+class UInputMappingContext;
+class UUGRC_GameplayAbility;
 class UUGRC_HeroLinkedAnimLayer;
+
+USTRUCT(BlueprintType)
+struct FUGRC_HeroAbilitySet
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "InputTag"))
+	FGameplayTag InputTag;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UUGRC_GameplayAbility> AbilityToGrant;
+	
+	bool IsValid() const;
+};
 
 USTRUCT(BlueprintType)
 struct FUGRC_HeroWeaponData
@@ -12,4 +29,10 @@ struct FUGRC_HeroWeaponData
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UUGRC_HeroLinkedAnimLayer> WeaponAnimLayerToLink;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputMappingContext> WeaponInputMappingContext;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperties = "InputTag"))
+	TArray<FUGRC_HeroAbilitySet> DefaultWeaponAbilities;
 };

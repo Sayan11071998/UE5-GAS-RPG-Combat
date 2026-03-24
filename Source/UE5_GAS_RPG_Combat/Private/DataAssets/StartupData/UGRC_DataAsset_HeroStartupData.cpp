@@ -1,11 +1,7 @@
 #include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
-#include "AbilitySystem/Abilities/UGRC_GameplayAbility.h"
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
-
-bool FUGRC_HeroAbilitySet::IsValid() const
-{
-	return InputTag.IsValid() && AbilityToGrant;
-}
+#include "CharacterTypes/UGRC_StructTypes.h"
+#include "AbilitySystem/Abilities/UGRC_GameplayAbility.h"
 
 void UUGRC_DataAsset_HeroStartupData::GiveToAbilitySystemComponent(TObjectPtr<UUGRC_AbilitySystemComponent> InASCToGive,
 	int32 ApplyLevel)
