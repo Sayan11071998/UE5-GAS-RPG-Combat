@@ -1,4 +1,5 @@
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
+#include "AbilitySystem/Abilities/UGRC_GameplayAbility.h"
 
 void UUGRC_AbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
@@ -14,4 +15,22 @@ void UUGRC_AbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 
 void UUGRC_AbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
+}
+
+void UUGRC_AbilitySystemComponent::GrantHeroWeaponAbilities(
+	const TArray<FUGRC_HeroAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
+{
+	if (InDefaultWeaponAbilities.IsEmpty()) return;
+	
+	for (const FUGRC_HeroAbilitySet& AbilitySet : InDefaultWeaponAbilities)
+	{
+		if (!AbilitySet.IsValid()) continue;
+		
+		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+		AbilitySpec.SourceObject = GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);
+		
+		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
+	}
 }
