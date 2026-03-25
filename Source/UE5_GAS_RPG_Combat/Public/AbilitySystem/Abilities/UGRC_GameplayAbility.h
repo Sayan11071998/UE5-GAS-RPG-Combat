@@ -4,6 +4,9 @@
 #include "Abilities/GameplayAbility.h"
 #include "UGRC_GameplayAbility.generated.h"
 
+class UUGRC_PawnCombatComponent;
+class UUGRC_AbilitySystemComponent;
+
 UENUM(BlueprintType)
 enum class EUGRC_AbilityActivationPolicy : uint8
 {
@@ -24,4 +27,10 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "UGRC Ability")
 	EUGRC_AbilityActivationPolicy AbilityActivationPolicy = EUGRC_AbilityActivationPolicy::OnTriggered;
+	
+	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
+	UUGRC_PawnCombatComponent* GetPawnCombatComponentFromActorInfo() const;
+	
+	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
+	UUGRC_AbilitySystemComponent* GetUGRCAbilitySystemComponentFromActorInfo() const;
 };

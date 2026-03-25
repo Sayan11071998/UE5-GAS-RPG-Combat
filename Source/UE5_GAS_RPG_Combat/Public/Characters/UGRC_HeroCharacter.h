@@ -1,11 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Characters/UGRC_BaseCharacter.h"
 #include "UGRC_HeroCharacter.generated.h"
 
 class UCameraComponent;
 class USpringArmComponent;
+class UUGRC_HeroCombatComponent;
 class UUGRC_DataAsset_InputConfig;
 struct FInputActionValue;
 
@@ -32,6 +34,9 @@ private:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCameraComponent> FollowCamera;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UUGRC_HeroCombatComponent> HeroCombatComponent;
 #pragma endregion
 	
 #pragma region Inputs
@@ -40,5 +45,11 @@ private:
 	
 	void Input_Move(const FInputActionValue& InputActionValue);
 	void Input_Look(const FInputActionValue& InputActionValue);
+	
+	void Input_AbilityInputPressed(FGameplayTag InInputTag);
+	void Input_AbilityInputReleased(FGameplayTag InInputTag);
 #pragma endregion
+	
+public:
+	FORCEINLINE TObjectPtr<UUGRC_HeroCombatComponent> GetHeroCombatComponent() const { return HeroCombatComponent; }
 };

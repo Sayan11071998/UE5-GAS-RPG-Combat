@@ -7,9 +7,9 @@
 #include "DataAssets/Input/UGRC_DataAsset_InputConfig.h"
 #include "Components/Input/UGRC_InputComponent.h"
 #include "UGRC_GameplayTags.h"
+#include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
-
-#include "UGRC_DebugHelper.h"
+#include "Components/Combat/UGRC_HeroCombatComponent.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -33,6 +33,8 @@ AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+	
+	HeroCombatComponent = CreateDefaultSubobject<UUGRC_HeroCombatComponent>(TEXT("HeroCombatComponent"));
 }
 
 void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
@@ -63,6 +65,8 @@ void AUGRC_HeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	
 	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_Move);
 	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_Look);
+
+	UGRCInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AUGRC_HeroCharacter::Input_AbilityInputPressed, &AUGRC_HeroCharacter::Input_AbilityInputReleased);
 }
 
 void AUGRC_HeroCharacter::BeginPlay()
@@ -101,4 +105,14 @@ void AUGRC_HeroCharacter::Input_Look(const FInputActionValue& InputActionValue)
 	{
 		AddControllerPitchInput(LookAxisVectorVector.Y);
 	}
+}
+
+void AUGRC_HeroCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
+{
+	UGRC_AbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+void AUGRC_HeroCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
+{
+	UGRC_AbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }
