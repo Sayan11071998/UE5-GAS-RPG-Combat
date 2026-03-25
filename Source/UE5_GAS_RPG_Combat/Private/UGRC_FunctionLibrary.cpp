@@ -20,7 +20,7 @@ void UUGRC_FunctionLibrary::AddGameplayTagToActorIfNone(AActor* InActor, FGamepl
 {
 	UUGRC_AbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
 	
-	if (ASC->HasMatchingGameplayTag(TagToAdd))
+	if (!ASC->HasMatchingGameplayTag(TagToAdd))
 	{
 		ASC->AddLooseGameplayTag(TagToAdd);
 	}
