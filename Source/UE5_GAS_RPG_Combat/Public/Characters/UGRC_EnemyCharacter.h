@@ -15,8 +15,15 @@ public:
 	AUGRC_EnemyCharacter();
 	
 protected:
+	// ~ Begin APawn Interface
+	virtual void PossessedBy(AController* NewController) override;
+	// ~ End APawn Interface
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<UUGRC_EnemyCombatComponent> EnemyCombatComponent;
+	
+private:
+	void InitEnemyStartupData();
 	
 public:
 	FORCEINLINE TObjectPtr<UUGRC_EnemyCombatComponent> GetEnemyCombatComponent() const { return EnemyCombatComponent; }
