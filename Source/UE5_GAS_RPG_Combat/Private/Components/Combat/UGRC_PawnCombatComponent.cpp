@@ -1,5 +1,8 @@
 #include "Components/Combat/UGRC_PawnCombatComponent.h"
 #include "Items/Weapons/UGRC_WeaponBase.h"
+#include "Components/BoxComponent.h"
+
+#include "UGRC_DebugHelper.h"
 
 void UUGRC_PawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister,
 	AUGRC_WeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon)
@@ -33,4 +36,24 @@ AUGRC_WeaponBase* UUGRC_PawnCombatComponent::GetCharacterCurrentEquippedWeapon()
 	if (!CurrentEquippedWeaponTag.IsValid()) return nullptr;
 	
 	return GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag);
+}
+
+void UUGRC_PawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EUGRC_ToggleDamageType ToggleDamageType)
+{
+	if (ToggleDamageType == EUGRC_ToggleDamageType::CurrentEquippedWeapon)
+	{
+		AUGRC_WeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+		check(WeaponToToggle);
+		
+		if (bShouldEnable)
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Debug::Print(WeaponToToggle->GetName() + TEXT("Collision Enabled"));
+		}
+		else
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Debug::Print(WeaponToToggle->GetName() + TEXT("Collision Disabled"));
+		}
+	}
 }

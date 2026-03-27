@@ -4,8 +4,6 @@
 #include "Engine/AssetManager.h"
 #include "DataAssets/StartupData/UGRC_DataAsset_EnemyStartupData.h"
 
-#include "UGRC_DebugHelper.h"
-
 AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 {
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
@@ -47,7 +45,6 @@ void AUGRC_EnemyCharacter::InitEnemyStartupData()
 				if (UUGRC_DataAsset_StartupDataBase* LoadedData = CharacterStartupData.Get())
 				{
 					LoadedData->GiveToAbilitySystemComponent(UGRC_AbilitySystemComponent);
-					Debug::Print(TEXT("Enemy Startup Data Loaded"));
 				}
 			}
 		)
