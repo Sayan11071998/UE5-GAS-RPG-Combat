@@ -30,4 +30,6 @@ namespace UGRC_GameplayTags
 	
 	/** Shared Tags **/
 	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+	
+	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 }
