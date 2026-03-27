@@ -1,7 +1,7 @@
 #include "Components/Combat/UGRC_HeroCombatComponent.h"
 #include "Items/Weapons/UGRC_HeroWeapon.h"
-
-#include "UGRC_DebugHelper.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "UGRC_GameplayTags.h"
 
 AUGRC_HeroWeapon* UUGRC_HeroCombatComponent::GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag) const
 {
@@ -10,10 +10,21 @@ AUGRC_HeroWeapon* UUGRC_HeroCombatComponent::GetHeroCarriedWeaponByTag(FGameplay
 
 void UUGRC_HeroCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
-	Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT(" hit ") + HitActor->GetActorNameOrLabel());
+	if (OverlappedActors.Contains(HitActor)) return;
+	
+	OverlappedActors.AddUnique(HitActor);
+	
+	FGameplayEventData Data;
+	Data.Instigator = GetOwningPawn();
+	Data.Target = HitActor;
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		UGRC_GameplayTags::Shared_Event_MeleeHit,
+		Data
+	);
 }
 
 void UUGRC_HeroCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
 {
-	Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT("'s weapon pulled from ") + InteractedActor->GetActorNameOrLabel());
 }

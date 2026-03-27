@@ -27,4 +27,7 @@ namespace UGRC_GameplayTags
 	
 	/** Enemy Tags **/
 	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
+	
+	/** Shared Tags **/
+	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
 }
