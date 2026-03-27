@@ -19,6 +19,10 @@ class UE5_GAS_RPG_COMBAT_API UUGRC_AttributeSet : public UAttributeSet
 public:
 	UUGRC_AttributeSet();
 	
+	// ~ Begin UAttributeSet Interface
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData &Data) override;
+	// ~ End UAttributeSet Interface
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
 	FGameplayAttributeData CurrentHealth;
 	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, CurrentHealth)
