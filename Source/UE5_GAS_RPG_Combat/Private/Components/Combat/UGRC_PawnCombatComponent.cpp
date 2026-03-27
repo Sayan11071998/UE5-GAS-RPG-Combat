@@ -48,12 +48,10 @@ void UUGRC_PawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EUGRC_
 		if (bShouldEnable)
 		{
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			Debug::Print(WeaponToToggle->GetName() + TEXT("Collision Enabled"));
 		}
 		else
 		{
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			Debug::Print(WeaponToToggle->GetName() + TEXT("Collision Disabled"));
 		}
 	}
 }
