@@ -49,6 +49,11 @@ TObjectPtr<UUGRC_PawnUIComponent> AUGRC_HeroCharacter::GetPawnUIComponent() cons
 	return HeroUIComponent;
 }
 
+TObjectPtr<UUGRC_HeroUIComponent> AUGRC_HeroCharacter::GetHeroUIComponent() const
+{
+	return HeroUIComponent;
+}
+
 void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

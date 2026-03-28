@@ -5,6 +5,8 @@
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "UGRC_AttributeSet.generated.h"
 
+class IUGRC_PawnUIInterface;
+
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
@@ -50,4 +52,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Damage")
 	FGameplayAttributeData DamageTaken;
 	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, DamageTaken)
+	
+private:
+	TWeakInterfacePtr<IUGRC_PawnUIInterface> CachedPawnUIInterface;
 };

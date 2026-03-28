@@ -2,6 +2,9 @@
 #include "GameplayEffectExtension.h"
 #include "UGRC_FunctionLibrary.h"
 #include "UGRC_GameplayTags.h"
+#include "Interfaces/UGRC_PawnUIInterface.h"
+#include "Components/UI/UGRC_PawnUIComponent.h"
+#include "Components/UI/UGRC_HeroUIComponent.h"
 
 #include "UGRC_DebugHelper.h"
 
@@ -17,16 +20,31 @@ UUGRC_AttributeSet::UUGRC_AttributeSet()
 
 void UUGRC_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
+	if (!CachedPawnUIInterface.IsValid())
+	{
+		CachedPawnUIInterface = TWeakInterfacePtr<IUGRC_PawnUIInterface>(Data.Target.GetAvatarActor());
+	}
+	checkf(CachedPawnUIInterface.IsValid(), TEXT("%s did not implement IUGRC_PawnUIInterface"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
+	
+	UUGRC_PawnUIComponent* PawnUIComponent = CachedPawnUIInterface->GetPawnUIComponent();
+	checkf(PawnUIComponent, TEXT("Cound not extract a PawnUIComponent from %s"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
+	
 	if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
 	{
 		const float NewCurrentHealth = FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth());
 		SetCurrentHealth(NewCurrentHealth);
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 	}
 	
 	if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute())
 	{
 		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
 		SetCurrentRage(NewCurrentRage);
+		
+		if (UUGRC_HeroUIComponent* HeroUIComponent = CachedPawnUIInterface->GetHeroUIComponent())
+		{
+			HeroUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
+		}
 	}
 	
 	if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
@@ -45,7 +63,7 @@ void UUGRC_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
 		);
 		Debug::Print(DebugString, FColor::Green);
 		
-		// TODO: Notify UI
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 		
 		if (NewCurrentHealth == 0.f)
 		{
