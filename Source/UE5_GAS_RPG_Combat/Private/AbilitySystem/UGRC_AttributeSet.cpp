@@ -65,7 +65,7 @@ void UUGRC_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
 		
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 		
-		if (NewCurrentHealth == 0.f)
+		if (GetCurrentHealth() == 0.f)
 		{
 			UUGRC_FunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), UGRC_GameplayTags::Shared_Status_Death);
 		}
