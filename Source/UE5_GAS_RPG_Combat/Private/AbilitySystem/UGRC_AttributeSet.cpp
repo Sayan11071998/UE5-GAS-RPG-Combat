@@ -1,5 +1,7 @@
 #include "AbilitySystem/UGRC_AttributeSet.h"
 #include "GameplayEffectExtension.h"
+#include "UGRC_FunctionLibrary.h"
+#include "UGRC_GameplayTags.h"
 
 #include "UGRC_DebugHelper.h"
 
@@ -44,9 +46,10 @@ void UUGRC_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
 		Debug::Print(DebugString, FColor::Green);
 		
 		// TODO: Notify UI
-		// TODO: Handle Current Health
+		
 		if (NewCurrentHealth == 0.f)
 		{
+			UUGRC_FunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), UGRC_GameplayTags::Shared_Status_Death);
 		}
 	}
 }
