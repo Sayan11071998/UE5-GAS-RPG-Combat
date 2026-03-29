@@ -2,6 +2,7 @@
 #include "Navigation/CrowdFollowingComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 #include "UGRC_DebugHelper.h"
 
@@ -46,6 +47,9 @@ void AUGRC_AIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Sti
 {
 	if (Stimulus.WasSuccessfullySensed() && Actor)
 	{
-		Debug::Print(Actor->GetActorNameOrLabel() + TEXT(" was sensed"));
+		if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+		{
+			BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+		}
 	}
 }
