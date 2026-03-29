@@ -4,6 +4,8 @@
 #include "Components/UI/UGRC_PawnUIComponent.h"
 #include "UGRC_HeroUIComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
+
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_HeroUIComponent : public UUGRC_PawnUIComponent
 {
@@ -12,4 +14,7 @@ class UE5_GAS_RPG_COMBAT_API UUGRC_HeroUIComponent : public UUGRC_PawnUIComponen
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnPercentChangedDelegate OnCurrentRageChanged;
+	
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;
 };
