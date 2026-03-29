@@ -4,6 +4,7 @@
 #include "Characters/UGRC_BaseCharacter.h"
 #include "UGRC_EnemyCharacter.generated.h"
 
+class UWidgetComponent;
 class UUGRC_EnemyCombatComponent;
 class UUGRC_EnemyUIComponent;
 
@@ -25,6 +26,8 @@ public:
 	// ~ End IUGRC_PawnUIInterface Interface
 	
 protected:
+	virtual void BeginPlay() override;
+	
 	// ~ Begin APawn Interface
 	virtual void PossessedBy(AController* NewController) override;
 	// ~ End APawn Interface
@@ -34,6 +37,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UUGRC_EnemyUIComponent> EnemyUIComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<UWidgetComponent> EnemyHealthWidgetComponent;
 	
 private:
 	void InitEnemyStartupData();

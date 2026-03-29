@@ -1,9 +1,11 @@
 #include "Characters/UGRC_EnemyCharacter.h"
+#include "Components/WidgetComponent.h"
 #include "Components/Combat/UGRC_EnemyCombatComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/AssetManager.h"
 #include "DataAssets/StartupData/UGRC_DataAsset_EnemyStartupData.h"
 #include "Components/UI/UGRC_EnemyUIComponent.h"
+#include "Widgets/UGRC_WidgetBase.h"
 
 AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 {
@@ -21,6 +23,9 @@ AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 	
 	EnemyCombatComponent = CreateDefaultSubobject<UUGRC_EnemyCombatComponent>(TEXT("EnemyCombatComponent"));
 	EnemyUIComponent = CreateDefaultSubobject<UUGRC_EnemyUIComponent>(TEXT("EnemyUIComponent"));
+	
+	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("EnemyHealthWidgetComponent"));
+	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
 }
 
 TObjectPtr<UUGRC_PawnCombatComponent> AUGRC_EnemyCharacter::GetPawnCombatComponent() const
@@ -36,6 +41,16 @@ TObjectPtr<UUGRC_PawnUIComponent> AUGRC_EnemyCharacter::GetPawnUIComponent() con
 TObjectPtr<UUGRC_EnemyUIComponent> AUGRC_EnemyCharacter::GetEnemyUIComponent() const
 {
 	return EnemyUIComponent;
+}
+
+void AUGRC_EnemyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	if (UUGRC_WidgetBase* HealthWidget = Cast<UUGRC_WidgetBase>(EnemyHealthWidgetComponent->GetUserWidgetObject()))
+	{
+		HealthWidget->InitEnemyCreatedWidget(this);
+	}
 }
 
 void AUGRC_EnemyCharacter::PossessedBy(AController* NewController)
