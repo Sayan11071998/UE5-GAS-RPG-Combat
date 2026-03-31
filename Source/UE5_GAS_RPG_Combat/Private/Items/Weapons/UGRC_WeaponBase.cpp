@@ -1,5 +1,6 @@
 #include "Items/Weapons/UGRC_WeaponBase.h"
 #include "Components/BoxComponent.h"
+#include "UGRC_FunctionLibrary.h"
 
 AUGRC_WeaponBase::AUGRC_WeaponBase()
 {
@@ -25,12 +26,10 @@ void AUGRC_WeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlappe
 	
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (UUGRC_FunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
 		}
-		
-		// TODO: Implement Hit Check for Enemy Character
 	}
 }
 
@@ -42,11 +41,9 @@ void AUGRC_WeaponBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedC
 	
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (UUGRC_FunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
 		}
-		
-		// TODO: Implement Hit Check for Enemy Character
 	}
 }
