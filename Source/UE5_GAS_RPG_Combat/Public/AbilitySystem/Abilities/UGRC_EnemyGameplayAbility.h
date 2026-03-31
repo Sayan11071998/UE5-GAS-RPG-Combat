@@ -19,6 +19,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
 	UUGRC_EnemyCombatComponent* GetEnemyCombatComponentFromActorInfo();
 	
+	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
+	FGameplayEffectSpecHandle MakeEnemyDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, const FScalableFloat& InDamageScalableFloat);
+	
 private:
 	TWeakObjectPtr<AUGRC_EnemyCharacter> CachedUGRCEnemyCharacter;
 };
