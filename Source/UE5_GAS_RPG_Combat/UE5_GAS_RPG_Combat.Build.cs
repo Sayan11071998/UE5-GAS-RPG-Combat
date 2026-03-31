@@ -18,7 +18,8 @@ public class UE5_GAS_RPG_Combat : ModuleRules
 			"GameplayTags",
 			"GameplayTasks",
 			"UMG",
-			"AIModule"
+			"AIModule",
+			"AnimGraphRuntime"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
