@@ -19,7 +19,8 @@ public class UE5_GAS_RPG_Combat : ModuleRules
 			"GameplayTasks",
 			"UMG",
 			"AIModule",
-			"AnimGraphRuntime"
+			"AnimGraphRuntime",
+			"MotionWarping"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
