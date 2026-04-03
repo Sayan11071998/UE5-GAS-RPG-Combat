@@ -1,6 +1,7 @@
 #include "Characters/UGRC_BaseCharacter.h"
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "AbilitySystem/UGRC_AttributeSet.h"
+#include "MotionWarpingComponent.h"
 
 AUGRC_BaseCharacter::AUGRC_BaseCharacter()
 {
@@ -11,6 +12,7 @@ AUGRC_BaseCharacter::AUGRC_BaseCharacter()
 	
 	UGRC_AbilitySystemComponent = CreateDefaultSubobject<UUGRC_AbilitySystemComponent>(TEXT("UGRC_AbilitySystemComponent"));
 	UGRC_AttributeSet = CreateDefaultSubobject<UUGRC_AttributeSet>(TEXT("UGRC_AttributeSet"));
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 }
 
 UAbilitySystemComponent* AUGRC_BaseCharacter::GetAbilitySystemComponent() const

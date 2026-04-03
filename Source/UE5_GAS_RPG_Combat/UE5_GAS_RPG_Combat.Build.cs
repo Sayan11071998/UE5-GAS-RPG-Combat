@@ -16,7 +16,11 @@ public class UE5_GAS_RPG_Combat : ModuleRules
 			"InputCore",
 			"EnhancedInput",
 			"GameplayTags",
-			"GameplayTasks"
+			"GameplayTasks",
+			"UMG",
+			"AIModule",
+			"AnimGraphRuntime",
+			"MotionWarping"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

@@ -10,6 +10,7 @@
 class UUGRC_AbilitySystemComponent;
 class UUGRC_AttributeSet;
 class UUGRC_DataAsset_StartupDataBase;
+class UMotionWarpingComponent;
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API AUGRC_BaseCharacter : public ACharacter, public IAbilitySystemInterface, public IUGRC_PawnCombatInterface, public IUGRC_PawnUIInterface
@@ -41,6 +42,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	TObjectPtr<UUGRC_AttributeSet> UGRC_AttributeSet;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarping")
+	TObjectPtr<UMotionWarpingComponent> MotionWarpingComponent;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UUGRC_DataAsset_StartupDataBase> CharacterStartupData;
