@@ -3,6 +3,7 @@
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "Interfaces/UGRC_PawnCombatInterface.h"
 #include "GenericTeamAgentInterface.h"
+#include "Kismet/KismetMathLibrary.h"
 
 TObjectPtr<UUGRC_AbilitySystemComponent> UUGRC_FunctionLibrary::NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor)
 {
@@ -85,4 +86,25 @@ bool UUGRC_FunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetP
 float UUGRC_FunctionLibrary::GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel)
 {
 	return InScalableFloat.GetValueAtLevel(InLevel);
+}
+
+FGameplayTag UUGRC_FunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim,
+	float& OutAngleDifference)
+{
+	check(InAttacker && InVictim);
+	
+	const FVector VictimForward = InVictim->GetActorForwardVector();
+	const FVector VictimToAttackerNormalized = (InAttacker->GetActorLocation() - InVictim->GetActorLocation()).GetSafeNormal();
+	
+	const float DotResult = FVector::DotProduct(VictimForward, VictimToAttackerNormalized);
+	OutAngleDifference = UKismetMathLibrary::DegAcos(DotResult);
+
+	const FVector CrossResult = FVector::CrossProduct(VictimForward, VictimToAttackerNormalized);
+	
+	if (CrossResult.Z < 0.f)
+	{
+		OutAngleDifference *= -1.f;
+	}
+	
+	return FGameplayTag();
 }
