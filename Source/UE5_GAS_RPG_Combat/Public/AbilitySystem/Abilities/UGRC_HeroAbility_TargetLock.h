@@ -4,6 +4,8 @@
 #include "AbilitySystem/Abilities/UGRC_HeroGameplayAbility.h"
 #include "UGRC_HeroAbility_TargetLock.generated.h"
 
+class UUGRC_WidgetBase;
+
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_HeroAbility_TargetLock : public UUGRC_HeroGameplayAbility
 {
@@ -19,6 +21,7 @@ private:
 	void TryLockOnTarget();
 	void GetAvailableActorsToLock();
 	TObjectPtr<AActor> GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors);
+	void DrawTargetLockWidget();
 	void CancelTargetLockAbility();
 	void Cleanup();
 	
@@ -34,9 +37,15 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "TargetLock")
 	bool bShowPersistentDebugShape = false;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "TargetLock")
+	TSubclassOf<UUGRC_WidgetBase> TargetLockWidgetClass;
+	
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
 	
 	UPROPERTY()
 	TObjectPtr<AActor> CurrentLockedActor;
+	
+	UPROPERTY()
+	TObjectPtr<UUGRC_WidgetBase> DrawnTargetLockWidget;
 };
