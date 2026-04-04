@@ -11,6 +11,9 @@
 #include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
 #include "Components/Combat/UGRC_HeroCombatComponent.h"
 #include "Components/UI/UGRC_HeroUIComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+
+#include "UGRC_DebugHelper.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -129,11 +132,20 @@ void AUGRC_HeroCharacter::Input_Look(const FInputActionValue& InputActionValue)
 
 void AUGRC_HeroCharacter::Input_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
 {
-	
+	SwitchDirection = InputActionValue.Get<FVector2D>();
 }
 
 void AUGRC_HeroCharacter::Input_SwitchTargetCompleted(const FInputActionValue& InputActionValue)
 {
+	FGameplayEventData Data;
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		this,
+		SwitchDirection.X > 0.f ? UGRC_GameplayTags::Player_Event_SwitchTarget_Right : UGRC_GameplayTags::Player_Event_SwitchTarget_Left,
+		Data
+	);
+	
+	Debug::Print(TEXT("Switch Direction: ") + SwitchDirection.ToString());
 }
 
 void AUGRC_HeroCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
