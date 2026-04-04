@@ -7,6 +7,8 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/SizeBox.h"
+#include "UGRC_FunctionLibrary.h"
+#include "UGRC_GameplayTags.h"
 
 void UUGRC_HeroAbility_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -24,6 +26,20 @@ void UUGRC_HeroAbility_TargetLock::EndAbility(const FGameplayAbilitySpecHandle H
 	Cleanup();
 	
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
+void UUGRC_HeroAbility_TargetLock::OnTargetLockTick(float DeltaTime)
+{
+	if (!CurrentLockedActor ||
+		UUGRC_FunctionLibrary::NativeDoesActorHaveTag(CurrentLockedActor, UGRC_GameplayTags::Shared_Status_Death)	||
+		UUGRC_FunctionLibrary::NativeDoesActorHaveTag(GetHeroCharacterFromActorInfo(), UGRC_GameplayTags::Shared_Status_Death)
+	)
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+	
+	SetTargetLockWidgetPosition();
 }
 
 void UUGRC_HeroAbility_TargetLock::TryLockOnTarget()
@@ -153,4 +169,7 @@ void UUGRC_HeroAbility_TargetLock::Cleanup()
 	{
 		DrawnTargetLockWidget->RemoveFromParent();
 	}
+	
+	DrawnTargetLockWidget = nullptr;
+	TargetLockWidgetSize = FVector2D::ZeroVector;
 }
