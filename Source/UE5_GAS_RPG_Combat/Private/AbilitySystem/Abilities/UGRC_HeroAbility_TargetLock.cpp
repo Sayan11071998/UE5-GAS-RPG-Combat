@@ -66,6 +66,31 @@ void UUGRC_HeroAbility_TargetLock::OnTargetLockTick(float DeltaTime)
 	}
 }
 
+void UUGRC_HeroAbility_TargetLock::SwitchTarget(const FGameplayTag& InSwitchDirectionTag)
+{
+	GetAvailableActorsToLock();
+	
+	TArray<AActor*> ActorsOnLeft;
+	TArray<AActor*> ActorsOnRight;
+	AActor* NewTargetToLock = nullptr;
+	
+	GetAvailableActorsAroundTarget(ActorsOnLeft, ActorsOnRight);
+	
+	if (InSwitchDirectionTag == UGRC_GameplayTags::Player_Event_SwitchTarget_Left)
+	{
+		NewTargetToLock = GetNearestTargetFromAvailableActors(ActorsOnLeft);
+	}
+	else
+	{
+		NewTargetToLock = GetNearestTargetFromAvailableActors(ActorsOnRight);
+	}
+	
+	if (NewTargetToLock)
+	{
+		CurrentLockedActor = NewTargetToLock;
+	}
+}
+
 void UUGRC_HeroAbility_TargetLock::TryLockOnTarget()
 {
 	GetAvailableActorsToLock();
@@ -91,6 +116,7 @@ void UUGRC_HeroAbility_TargetLock::TryLockOnTarget()
 
 void UUGRC_HeroAbility_TargetLock::GetAvailableActorsToLock()
 {
+	AvailableActorsToLock.Empty();
 	TArray<FHitResult> BoxTraceHits;
 	
 	UKismetSystemLibrary::BoxTraceMultiForObjects(
@@ -129,6 +155,35 @@ TObjectPtr<AActor> UUGRC_HeroAbility_TargetLock::GetNearestTargetFromAvailableAc
 		InAvailableActors,
 		ClosestDistance
 	);
+}
+
+void UUGRC_HeroAbility_TargetLock::GetAvailableActorsAroundTarget(TArray<AActor*>& OutActorsOnLeft, TArray<AActor*>& OutActorOnRight)
+{
+	if (!CurrentLockedActor && AvailableActorsToLock.IsEmpty())
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+	
+	const FVector PlayerLocation = GetHeroCharacterFromActorInfo()->GetActorLocation();
+	const FVector PlayerToCurrentNormalized = (CurrentLockedActor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+	
+	for (AActor* AvailableActor : AvailableActorsToLock)
+	{
+		if (!AvailableActor || AvailableActor == CurrentLockedActor) continue;
+		
+		const FVector PlayerToAvailableNormalized = (AvailableActor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+		const FVector CrossResult = FVector::CrossProduct(PlayerToCurrentNormalized, PlayerToAvailableNormalized);
+		
+		if (CrossResult.Z > 0.f)
+		{
+			OutActorOnRight.AddUnique(AvailableActor);
+		}
+		else
+		{
+			OutActorsOnLeft.AddUnique(AvailableActor);
+		}
+	}
 }
 
 void UUGRC_HeroAbility_TargetLock::DrawTargetLockWidget()

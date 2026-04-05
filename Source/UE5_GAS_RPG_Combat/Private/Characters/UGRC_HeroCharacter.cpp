@@ -144,8 +144,6 @@ void AUGRC_HeroCharacter::Input_SwitchTargetCompleted(const FInputActionValue& I
 		SwitchDirection.X > 0.f ? UGRC_GameplayTags::Player_Event_SwitchTarget_Right : UGRC_GameplayTags::Player_Event_SwitchTarget_Left,
 		Data
 	);
-	
-	Debug::Print(TEXT("Switch Direction: ") + SwitchDirection.ToString());
 }
 
 void AUGRC_HeroCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
