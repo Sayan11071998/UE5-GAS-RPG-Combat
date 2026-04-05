@@ -8,6 +8,7 @@
 
 class UUGRC_AbilitySystemComponent;
 class UUGRC_PawnCombatComponent;
+struct FScalableFloat;
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_FunctionLibrary : public UBlueprintFunctionLibrary
@@ -33,4 +34,13 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "UGRC|FunctionLibrary")
 	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
+	
+	UFUNCTION(BlueprintPure, Category = "UGRC|FunctionLibrary", meta = (CompactNodeTitle = "Get Value at Level"))
+	static float GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel = 1.f);
+	
+	UFUNCTION(BlueprintPure, Category = "UGRC|FunctionLibrary")
+	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
+	
+	UFUNCTION(BlueprintPure, Category = "UGRC|FunctionLibrary")
+	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
 };

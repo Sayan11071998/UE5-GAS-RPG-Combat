@@ -1,6 +1,7 @@
 #include "Components/Combat/UGRC_EnemyCombatComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "UGRC_GameplayTags.h"
+#include "UGRC_FunctionLibrary.h"
 
 void UUGRC_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
@@ -11,28 +12,32 @@ void UUGRC_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	// TODO: Implement Block Check
 	bool bIsValidBlock = false;
 	
-	const bool bIsPlayerBlocking = false;
+	const bool bIsPlayerBlocking = UUGRC_FunctionLibrary::NativeDoesActorHaveTag(HitActor, UGRC_GameplayTags::Player_Status_Blocking);
 	const bool bIsMyAttackUnblockable = false;
 	
 	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
-		// TODO: Check if the block is valid
+		bIsValidBlock = UUGRC_FunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 	
-	FGameplayEventData EentData;
-	EentData.Instigator = GetOwningPawn();
-	EentData.Target = HitActor;
+	FGameplayEventData EventData;
+	EventData.Instigator = GetOwningPawn();
+	EventData.Target = HitActor;
 	
 	if (bIsValidBlock)
 	{
-		// TODO: Handle Successful Block
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitActor,
+			UGRC_GameplayTags::Player_Event_SuccessfulBlock,
+			EventData
+		);
 	}
 	else
 	{
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 			GetOwningPawn(),
 			UGRC_GameplayTags::Shared_Event_MeleeHit,
-			EentData
+			EventData
 		);
 	}
 }

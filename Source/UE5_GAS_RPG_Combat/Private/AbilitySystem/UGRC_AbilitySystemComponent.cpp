@@ -1,5 +1,6 @@
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/UGRC_HeroGameplayAbility.h"
+#include "UGRC_GameplayTags.h"
 
 void UUGRC_AbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
@@ -9,12 +10,35 @@ void UUGRC_AbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 	{
 		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InInputTag)) continue;
 		
-		TryActivateAbility(AbilitySpec.Handle);
+		if (InInputTag.MatchesTag(UGRC_GameplayTags::InputTag_Toggleable))
+		{
+			if (AbilitySpec.IsActive())
+			{
+				CancelAbilityHandle(AbilitySpec.Handle);
+			}
+			else
+			{
+				TryActivateAbility(AbilitySpec.Handle);
+			}
+		}
+		else
+		{
+			TryActivateAbility(AbilitySpec.Handle);
+		}
 	}
 }
 
 void UUGRC_AbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
+	if (!InInputTag.IsValid() || !InInputTag.MatchesTag(UGRC_GameplayTags::InputTag_MustBeHeld)) return;
+	
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InInputTag) && AbilitySpec.IsActive())
+		{
+			CancelAbilityHandle(AbilitySpec.Handle);
+		}
+	}
 }
 
 void UUGRC_AbilitySystemComponent::GrantHeroWeaponAbilities(

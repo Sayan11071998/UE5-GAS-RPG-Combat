@@ -11,6 +11,9 @@
 #include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
 #include "Components/Combat/UGRC_HeroCombatComponent.h"
 #include "Components/UI/UGRC_HeroUIComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+
+#include "UGRC_DebugHelper.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -82,6 +85,9 @@ void AUGRC_HeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	
 	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_Move);
 	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_Look);
+	
+	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_SwitchTarget, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_SwitchTargetTriggered);
+	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_SwitchTarget, ETriggerEvent::Completed, this, &AUGRC_HeroCharacter::Input_SwitchTargetCompleted);
 
 	UGRCInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AUGRC_HeroCharacter::Input_AbilityInputPressed, &AUGRC_HeroCharacter::Input_AbilityInputReleased);
 }
@@ -122,6 +128,22 @@ void AUGRC_HeroCharacter::Input_Look(const FInputActionValue& InputActionValue)
 	{
 		AddControllerPitchInput(LookAxisVectorVector.Y);
 	}
+}
+
+void AUGRC_HeroCharacter::Input_SwitchTargetTriggered(const FInputActionValue& InputActionValue)
+{
+	SwitchDirection = InputActionValue.Get<FVector2D>();
+}
+
+void AUGRC_HeroCharacter::Input_SwitchTargetCompleted(const FInputActionValue& InputActionValue)
+{
+	FGameplayEventData Data;
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		this,
+		SwitchDirection.X > 0.f ? UGRC_GameplayTags::Player_Event_SwitchTarget_Right : UGRC_GameplayTags::Player_Event_SwitchTarget_Left,
+		Data
+	);
 }
 
 void AUGRC_HeroCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
