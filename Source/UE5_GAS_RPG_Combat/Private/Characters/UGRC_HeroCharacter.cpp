@@ -12,6 +12,7 @@
 #include "Components/Combat/UGRC_HeroCombatComponent.h"
 #include "Components/UI/UGRC_HeroUIComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GameModes/UGRC_GameModeBase.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -63,7 +64,34 @@ void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
 	{
 		if (UUGRC_DataAsset_StartupDataBase* LoadedData = CharacterStartupData.LoadSynchronous())
 		{
-			LoadedData->GiveToAbilitySystemComponent(UGRC_AbilitySystemComponent);
+			int32 AbilityApplyLevel = 1;
+			
+			if (AUGRC_GameModeBase* BaseGameMode = GetWorld()->GetAuthGameMode<AUGRC_GameModeBase>())
+			{
+				switch (BaseGameMode->GetCurrentGameDifficulty())
+				{
+				case EUGRC_GameDifficulty::Easy:
+					AbilityApplyLevel = 4;
+					break;
+					
+				case EUGRC_GameDifficulty::Normal:
+					AbilityApplyLevel = 3;
+					break;
+					
+				case EUGRC_GameDifficulty::Hard:
+					AbilityApplyLevel = 2;
+					break;
+					
+				case EUGRC_GameDifficulty::VeryHard:
+					AbilityApplyLevel = 1;
+					break;
+					
+				default:
+					break;
+				}
+			}
+			
+			LoadedData->GiveToAbilitySystemComponent(UGRC_AbilitySystemComponent, AbilityApplyLevel);
 		}
 	}
 }
