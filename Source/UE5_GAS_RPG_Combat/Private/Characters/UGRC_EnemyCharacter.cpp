@@ -8,6 +8,7 @@
 #include "Components/UI/UGRC_EnemyUIComponent.h"
 #include "Widgets/UGRC_WidgetBase.h"
 #include "UGRC_FunctionLibrary.h"
+#include "GameModes/UGRC_GameModeBase.h"
 
 AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 {
@@ -106,14 +107,41 @@ void AUGRC_EnemyCharacter::InitEnemyStartupData()
 {
 	if (CharacterStartupData.IsNull()) return;
 	
+	int32 AbilityApplyLevel = 1;
+			
+	if (AUGRC_GameModeBase* BaseGameMode = GetWorld()->GetAuthGameMode<AUGRC_GameModeBase>())
+	{
+		switch (BaseGameMode->GetCurrentGameDifficulty())
+		{
+		case EUGRC_GameDifficulty::Easy:
+			AbilityApplyLevel = 1;
+			break;
+					
+		case EUGRC_GameDifficulty::Normal:
+			AbilityApplyLevel = 2;
+			break;
+					
+		case EUGRC_GameDifficulty::Hard:
+			AbilityApplyLevel = 3;
+			break;
+					
+		case EUGRC_GameDifficulty::VeryHard:
+			AbilityApplyLevel = 4;
+			break;
+					
+		default:
+			break;
+		}
+	}
+	
 	UAssetManager::GetStreamableManager().RequestAsyncLoad(
 		CharacterStartupData.ToSoftObjectPath(),
 		FStreamableDelegate::CreateLambda(
-			[this]()
+			[this, AbilityApplyLevel]()
 			{
 				if (UUGRC_DataAsset_StartupDataBase* LoadedData = CharacterStartupData.Get())
 				{
-					LoadedData->GiveToAbilitySystemComponent(UGRC_AbilitySystemComponent);
+					LoadedData->GiveToAbilitySystemComponent(UGRC_AbilitySystemComponent, AbilityApplyLevel);
 				}
 			}
 		)
