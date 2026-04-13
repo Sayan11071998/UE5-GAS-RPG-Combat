@@ -28,8 +28,8 @@ class UE5_GAS_RPG_COMBAT_API UUGRC_GameInstance : public UGameInstance
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, meta = (GameplayTahFilter = "GameData.Level"))
-	TSoftObjectPtr<UWorld> GetGameLevelByTag(FGameplayTag InTag);
+	UFUNCTION(BlueprintPure, meta = (GameplayTagFilter = "GameData.Level"))
+	TSoftObjectPtr<UWorld> GetGameLevelByTag(FGameplayTag InTag) const;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

@@ -1,6 +1,6 @@
 #include "UGRC_GameInstance.h"
 
-TSoftObjectPtr<UWorld> UUGRC_GameInstance::GetGameLevelByTag(FGameplayTag InTag)
+TSoftObjectPtr<UWorld> UUGRC_GameInstance::GetGameLevelByTag(FGameplayTag InTag) const
 {
 	for (const FUGRC_GameLevelSet& GameLevelSet : GameLevelSets)
 	{
