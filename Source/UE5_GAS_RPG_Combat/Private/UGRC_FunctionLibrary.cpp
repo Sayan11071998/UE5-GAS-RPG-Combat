@@ -6,6 +6,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "UGRC_GameplayTags.h"
 #include "CharacterTypes/UGRC_CountDownAction.h"
+#include "UGRC_GameInstance.h"
 
 TObjectPtr<UUGRC_AbilitySystemComponent> UUGRC_FunctionLibrary::NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor)
 {
@@ -190,4 +191,17 @@ void UUGRC_FunctionLibrary::CountDown(const UObject* WorldContextObject, float T
 			FoundAction->CancelAction();
 		}
 	}
+}
+
+UUGRC_GameInstance* UUGRC_FunctionLibrary::GetUGRCGameInstance(const UObject* WorldContextObject)
+{
+	if (GEngine)
+	{
+		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+		{
+			return World->GetGameInstance<UUGRC_GameInstance>();
+		}
+	}
+	
+	return nullptr;
 }

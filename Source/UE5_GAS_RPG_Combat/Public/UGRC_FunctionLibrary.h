@@ -6,6 +6,7 @@
 #include "CharacterTypes/UGRC_EnumTypes.h"
 #include "UGRC_FunctionLibrary.generated.h"
 
+class UUGRC_GameInstance;
 class UUGRC_AbilitySystemComponent;
 class UUGRC_PawnCombatComponent;
 struct FScalableFloat;
@@ -50,4 +51,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", ExpandEnumAsExecs = "CountDownInput|CountDownOutput", TotalTime = "1.0", UpdateInterval = "0.1"))
 	static void CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval, float& OutRemainingTime, EUGRC_CountDownActionInput CountDownInput, UPARAM(DisplayName = "output") EUGRC_CountDownActionOutput& CountDownOutput, FLatentActionInfo LatentInfo);
+
+	UFUNCTION(BlueprintPure, Category = "UGRC|FunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+	static UUGRC_GameInstance* GetUGRCGameInstance(const UObject* WorldContextObject);
 };
