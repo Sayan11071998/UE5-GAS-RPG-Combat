@@ -205,3 +205,37 @@ UUGRC_GameInstance* UUGRC_FunctionLibrary::GetUGRCGameInstance(const UObject* Wo
 	
 	return nullptr;
 }
+
+void UUGRC_FunctionLibrary::ToggleInputMode(const UObject* WorldContextObject, EUGRC_InputMode InInputMode)
+{
+	APlayerController* PlayerController = nullptr;
+	
+	if (GEngine)
+	{
+		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+		{
+			PlayerController = World->GetFirstPlayerController();
+		}
+	}
+	
+	if (!PlayerController) return;
+	
+	FInputModeGameOnly GameOnlyMode;
+	FInputModeUIOnly UIOnlyMode;
+
+	switch (InInputMode)
+	{
+	case EUGRC_InputMode::GameOnly:
+		PlayerController->SetInputMode(GameOnlyMode);
+		PlayerController->bShowMouseCursor = false;
+		break;
+		
+	case EUGRC_InputMode::UIOnly:
+		PlayerController->SetInputMode(UIOnlyMode);
+		PlayerController->bShowMouseCursor = true;
+		break;
+		
+	default:
+		break;
+	}
+}

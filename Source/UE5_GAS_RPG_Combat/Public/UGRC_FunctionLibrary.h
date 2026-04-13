@@ -54,4 +54,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "UGRC|FunctionLibrary", meta = (WorldContext = "WorldContextObject"))
 	static UUGRC_GameInstance* GetUGRCGameInstance(const UObject* WorldContextObject);
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void ToggleInputMode(const UObject* WorldContextObject, EUGRC_InputMode InInputMode);
 };
