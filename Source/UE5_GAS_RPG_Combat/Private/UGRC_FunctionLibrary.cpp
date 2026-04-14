@@ -7,6 +7,10 @@
 #include "UGRC_GameplayTags.h"
 #include "CharacterTypes/UGRC_CountDownAction.h"
 #include "UGRC_GameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "SaveGame/UGRC_SaveGame.h"
+
+#include "UGRC_DebugHelper.h"
 
 TObjectPtr<UUGRC_AbilitySystemComponent> UUGRC_FunctionLibrary::NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor)
 {
@@ -238,4 +242,37 @@ void UUGRC_FunctionLibrary::ToggleInputMode(const UObject* WorldContextObject, E
 	default:
 		break;
 	}
+}
+
+void UUGRC_FunctionLibrary::SaveCurrentGameDifficulty(EUGRC_GameDifficulty InDifficultyToSave)
+{
+	USaveGame* SaveGameObject = UGameplayStatics::CreateSaveGameObject(UUGRC_SaveGame::StaticClass());
+	
+	if (UUGRC_SaveGame* UGRCSaveGameObject = Cast<UUGRC_SaveGame>(SaveGameObject))
+	{
+		UGRCSaveGameObject->SavedCurrentGameDifficulty = InDifficultyToSave;
+		
+		const bool bWasSaved = UGameplayStatics::SaveGameToSlot(UGRCSaveGameObject, UGRC_GameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0);
+	
+		Debug::Print(bWasSaved ? TEXT("Difficulty Saved") : TEXT("Difficulty Not Saved"));
+	}
+}
+
+bool UUGRC_FunctionLibrary::TryLoadSavedGameDifficulty(EUGRC_GameDifficulty& OutSavedDifficulty)
+{
+	if (UGameplayStatics::DoesSaveGameExist(UGRC_GameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0))
+	{
+		USaveGame* SaveGameObject = UGameplayStatics::LoadGameFromSlot(UGRC_GameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0);
+	
+		if (UUGRC_SaveGame* UGRCSaveGameObject = Cast<UUGRC_SaveGame>(SaveGameObject))
+		{
+			OutSavedDifficulty = UGRCSaveGameObject->SavedCurrentGameDifficulty;
+			
+			Debug::Print(TEXT("Loading Successful"), FColor::Green);
+			
+			return true;
+		}
+	}
+	
+	return false;
 }

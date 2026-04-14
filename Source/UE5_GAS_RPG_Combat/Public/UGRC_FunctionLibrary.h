@@ -57,4 +57,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void ToggleInputMode(const UObject* WorldContextObject, EUGRC_InputMode InInputMode);
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary")
+	static void SaveCurrentGameDifficulty(EUGRC_GameDifficulty InDifficultyToSave);
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary")
+	static bool TryLoadSavedGameDifficulty(EUGRC_GameDifficulty& OutSavedDifficulty);
 };
