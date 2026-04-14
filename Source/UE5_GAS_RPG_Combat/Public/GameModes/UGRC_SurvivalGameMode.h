@@ -56,6 +56,10 @@ public:
 	void RegisterSpawnedEnemies(const TArray<AUGRC_EnemyCharacter*>& InEnemiesToRegister);
 	
 protected:
+	// ~ Begin AGameModeBase Interface
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	// ~ End AGameModeBase Interface
+	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
