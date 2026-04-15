@@ -44,7 +44,7 @@ protected:
 	virtual void ToggleBodyCollisionBoxCollision(bool bShouldEnable, EUGRC_ToggleDamageType ToggleDamageType);
 	
 	UPROPERTY()
-	TArray<AActor*> OverlappedActors;
+	TArray<TObjectPtr<AActor>> OverlappedActors;
 	
 private:
 	UPROPERTY()
