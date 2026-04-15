@@ -1,6 +1,6 @@
 #include "AI/UGRC_BTT_RotateToFaceTarget.h"
 #include "BehaviorTree/BlackboardData.h"
-#include  "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
 #include "Kismet/KismetMathLibrary.h"
 
