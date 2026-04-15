@@ -1,7 +1,7 @@
 #include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "CharacterTypes/UGRC_StructTypes.h"
-#include "AbilitySystem/Abilities/UGRC_GameplayAbility.h"
+#include "AbilitySystem/Abilities/UGRC_HeroGameplayAbility.h"
 
 void UUGRC_DataAsset_HeroStartupData::GiveToAbilitySystemComponent(TObjectPtr<UUGRC_AbilitySystemComponent> InASCToGive,
 	int32 ApplyLevel)
