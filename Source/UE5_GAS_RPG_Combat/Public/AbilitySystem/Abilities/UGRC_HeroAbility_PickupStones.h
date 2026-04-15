@@ -37,5 +37,5 @@ private:
 	bool bDrawDebugShape = false;
 	
 	UPROPERTY()
-	TArray<AUGRC_StoneBase*> CollectedStones;
+	TArray<TObjectPtr<AUGRC_StoneBase>> CollectedStones;
 };
