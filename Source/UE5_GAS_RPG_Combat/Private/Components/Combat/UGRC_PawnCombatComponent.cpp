@@ -51,13 +51,9 @@ void UUGRC_PawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EUGRC_
 	}
 }
 
-void UUGRC_PawnCombatComponent::OnHitTargetActor(AActor* HitActor)
-{
-}
+void UUGRC_PawnCombatComponent::OnHitTargetActor(AActor* HitActor) { }
 
-void UUGRC_PawnCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
-{
-}
+void UUGRC_PawnCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor) { }
 
 void UUGRC_PawnCombatComponent::ToggleCurrentEquippedWeaponCollision(bool bShouldEnable)
 {
@@ -76,6 +72,4 @@ void UUGRC_PawnCombatComponent::ToggleCurrentEquippedWeaponCollision(bool bShoul
 }
 
 void UUGRC_PawnCombatComponent::ToggleBodyCollisionBoxCollision(bool bShouldEnable,
-	EUGRC_ToggleDamageType ToggleDamageType)
-{
-}
+	EUGRC_ToggleDamageType ToggleDamageType) { }
