@@ -10,8 +10,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "SaveGame/UGRC_SaveGame.h"
 
-#include "UGRC_DebugHelper.h"
-
 TObjectPtr<UUGRC_AbilitySystemComponent> UUGRC_FunctionLibrary::NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor)
 {
 	check(InActor);
@@ -253,8 +251,6 @@ void UUGRC_FunctionLibrary::SaveCurrentGameDifficulty(EUGRC_GameDifficulty InDif
 		UGRCSaveGameObject->SavedCurrentGameDifficulty = InDifficultyToSave;
 		
 		const bool bWasSaved = UGameplayStatics::SaveGameToSlot(UGRCSaveGameObject, UGRC_GameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0);
-	
-		Debug::Print(bWasSaved ? TEXT("Difficulty Saved") : TEXT("Difficulty Not Saved"));
 	}
 }
 
@@ -267,8 +263,6 @@ bool UUGRC_FunctionLibrary::TryLoadSavedGameDifficulty(EUGRC_GameDifficulty& Out
 		if (UUGRC_SaveGame* UGRCSaveGameObject = Cast<UUGRC_SaveGame>(SaveGameObject))
 		{
 			OutSavedDifficulty = UGRCSaveGameObject->SavedCurrentGameDifficulty;
-			
-			Debug::Print(TEXT("Loading Successful"), FColor::Green);
 			
 			return true;
 		}
