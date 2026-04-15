@@ -47,3 +47,10 @@ enum class EUGRC_GameDifficulty : uint8
 	Hard,
 	VeryHard
 };
+
+UENUM(BlueprintType)
+enum class EUGRC_InputMode : uint8
+{
+	GameOnly,
+	UIOnly
+};

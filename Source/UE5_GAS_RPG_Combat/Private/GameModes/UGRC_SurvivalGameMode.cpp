@@ -4,6 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/TargetPoint.h"
 #include "NavigationSystem.h"
+#include  "UGRC_FunctionLibrary.h"
 
 void AUGRC_SurvivalGameMode::BeginPlay()
 {
@@ -77,6 +78,18 @@ void AUGRC_SurvivalGameMode::RegisterSpawnedEnemies(const TArray<AUGRC_EnemyChar
 			CurrentSpawnedEnemiesCounter++;
 			SpawnedEnemy->OnDestroyed.AddUniqueDynamic(this, &AUGRC_SurvivalGameMode::OnEnemyDestroyed);
 		}
+	}
+}
+
+void AUGRC_SurvivalGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	
+	EUGRC_GameDifficulty SavedGameDifficulty;
+	
+	if (UUGRC_FunctionLibrary::TryLoadSavedGameDifficulty(SavedGameDifficulty))
+	{
+		CurrentGameDifficulty = SavedGameDifficulty;
 	}
 }
 

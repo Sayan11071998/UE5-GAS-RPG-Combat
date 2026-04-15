@@ -14,6 +14,8 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameModes/UGRC_GameModeBase.h"
 
+#include "UGRC_DebugHelper.h"
+
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.f);
@@ -72,18 +74,22 @@ void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
 				{
 				case EUGRC_GameDifficulty::Easy:
 					AbilityApplyLevel = 4;
+					Debug::Print("Current Difficulty: Easy");
 					break;
 					
 				case EUGRC_GameDifficulty::Normal:
 					AbilityApplyLevel = 3;
+					Debug::Print("Current Difficulty: Normal");
 					break;
 					
 				case EUGRC_GameDifficulty::Hard:
 					AbilityApplyLevel = 2;
+					Debug::Print("Current Difficulty: Hard");
 					break;
 					
 				case EUGRC_GameDifficulty::VeryHard:
 					AbilityApplyLevel = 1;
+					Debug::Print("Current Difficulty: Very Hard");
 					break;
 					
 				default:
