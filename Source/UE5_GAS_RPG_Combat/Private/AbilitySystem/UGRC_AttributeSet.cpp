@@ -6,8 +6,6 @@
 #include "Components/UI/UGRC_PawnUIComponent.h"
 #include "Components/UI/UGRC_HeroUIComponent.h"
 
-#include "UGRC_DebugHelper.h"
-
 UUGRC_AttributeSet::UUGRC_AttributeSet()
 {
 	InitCurrentHealth(1.f);
@@ -68,14 +66,6 @@ void UUGRC_AttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
 		const float NewCurrentHealth = FMath::Clamp(OldHealth - DamageDone, 0.f, GetMaxHealth());
 		
 		SetCurrentHealth(NewCurrentHealth);
-		
-		// const FString DebugString = FString::Printf(
-		// 	TEXT("Old Health: %f, Damage Done: %f, NewCurrentHealth: %f"),
-		// 	OldHealth,
-		// 	DamageDone,
-		// 	NewCurrentHealth
-		// );
-		// Debug::Print(DebugString, FColor::Green);
 		
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 		

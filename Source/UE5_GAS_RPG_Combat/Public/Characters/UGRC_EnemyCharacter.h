@@ -27,9 +27,8 @@ public:
 	// ~ End IUGRC_PawnUIInterface Interface
 	
 protected:
-	virtual void BeginPlay() override;
-	
 	// ~ Begin APawn Interface
+	virtual void BeginPlay() override;
 	virtual void PossessedBy(AController* NewController) override;
 	// ~ End APawn Interface
 	

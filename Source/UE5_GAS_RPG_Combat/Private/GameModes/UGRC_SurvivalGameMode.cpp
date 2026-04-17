@@ -4,7 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/TargetPoint.h"
 #include "NavigationSystem.h"
-#include  "UGRC_FunctionLibrary.h"
+#include "UGRC_FunctionLibrary.h"
 
 void AUGRC_SurvivalGameMode::BeginPlay()
 {

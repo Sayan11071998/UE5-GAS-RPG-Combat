@@ -11,7 +11,9 @@ class UE5_GAS_RPG_COMBAT_API UUGRC_DataAsset_HeroStartupData : public UUGRC_Data
 	GENERATED_BODY()
 	
 public:
+	// ~ Begin UDataAsset Interface
 	virtual void GiveToAbilitySystemComponent(TObjectPtr<UUGRC_AbilitySystemComponent> InASCToGive, int32 ApplyLevel = 1) override;
+	// ~ End UDataAsset Interface
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "StartupData", meta = (TitleProperty = "InputTag"))

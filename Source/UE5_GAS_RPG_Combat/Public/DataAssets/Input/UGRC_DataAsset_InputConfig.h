@@ -13,7 +13,6 @@ struct FUGRC_InputActionConfig
 {
 	GENERATED_BODY()
 	
-public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "InputTag"))
 	FGameplayTag InputTag;
 	
